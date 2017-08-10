@@ -6,10 +6,10 @@
 #include <stdlib.h>
 #include <istream>
 #include <fstream>
-#include <GL/gl.h>
-#include <GL/glu.h>
+//#include <GL/gl.h>
+//#include <GL/glu.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "/home/kchetty/Desktop/tutorial/Renderer/SpartanJ-soil2-3492823d05aa/src/SOIL2/SOIL2.h"
+#include "../SpartanJ-soil2-3492823d05aa/src/SOIL2/SOIL2.h"

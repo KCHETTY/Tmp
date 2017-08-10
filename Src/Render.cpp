@@ -68,7 +68,7 @@ void Render::init()
 
     std::cout << "Im Here" << std::endl;
 
-    this->shader.compile_shaders("/home/kchetty/Desktop/tutorial/Renderer/Shaders/Colour_Shading.vert", "/home/kchetty/Desktop/tutorial/Renderer/Shaders/Colour_Shasiner.frag");
+    this->shader.compile_shaders("/nfs/zfs-student-6/users/kchetty/Desktop/Tmp/Shaders/Colour_Shading.vert", "/nfs/zfs-student-6/users/kchetty/Desktop/Tmp/Shaders/Colour_Shasiner.frag");
 
     Render::camera = new Camera( glm::vec3( 0.0f, 0.0f, 3.0f) );
     Render::lastX = SCREEN_WIDTH / 2.0f;
@@ -183,7 +183,7 @@ void Render::render()
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-    unsigned char *image = SOIL_load_image("/home/kchetty/Desktop/tutorial/Renderer/Textures/wildtextures-creased-gilded-decorative-paper-texture.jpg", &width, &height, 0, SOIL_LOAD_RGBA);
+    unsigned char *image = SOIL_load_image("/nfs/zfs-student-6/users/kchetty/Desktop/Tmp/Textures/wildtextures-creased-gilded-decorative-paper-texture.jpg", &width, &height, 0, SOIL_LOAD_RGBA);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
     glGenerateMipmap( GL_TEXTURE_2D );
     SOIL_free_image_data( image );

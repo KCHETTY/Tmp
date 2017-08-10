@@ -109,14 +109,14 @@ int main( int argc, char* argv[] )
 		glTexGeni( GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
 		glTexGeni( GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
 		glBindTexture( GL_TEXTURE_CUBE_MAP, tex_ID );
-		
+
 		std::cout << "the loaded single cube map ID was " << tex_ID << std::endl;
 	}
 	else
 	{
 		std::cout << "Attempting to load as a HDR texture" << std::endl;
 		time_me = SDL_GetPerformanceCounter();
-		
+
 		tex_ID = SOIL_load_OGL_HDR_texture(
 				load_me.c_str(),
 				SOIL_HDR_RGBdivA2,
@@ -128,16 +128,16 @@ int main( int argc, char* argv[] )
 				);
 
 		std::cout << "the load time was " << get_total_ms(time_me) << " milliseconds" << std::endl;
-		
+
 		//	did I fail?
 		if( tex_ID < 1 )
 		{
 			//	loading of the single-image-cubemap failed, try it as a simple texture
 			std::cout << "Attempting to load as a simple 2D texture" << std::endl;
-			
+
 			//	load the texture, if specified
 			time_me = SDL_GetPerformanceCounter();
-			
+
 			tex_ID = SOIL_load_OGL_texture(
 					load_me.c_str(),
 					SOIL_LOAD_AUTO,
@@ -158,10 +158,10 @@ int main( int argc, char* argv[] )
 		{
 			//	enable texturing
 			glEnable( GL_TEXTURE_2D );
-			
+
 			//  bind an OpenGL texture ID
 			glBindTexture( GL_TEXTURE_2D, tex_ID );
-			
+
 			//	report
 			std::cout << "the loaded texture ID was " << tex_ID << std::endl;
 		}
@@ -169,7 +169,7 @@ int main( int argc, char* argv[] )
 		{
 			//	loading of the texture failed...why?
 			glDisable( GL_TEXTURE_2D );
-			
+
 			std::cout << "Texture loading failed: '" << SOIL_last_result() << "'" << std::endl;
 		}
 	}
@@ -213,7 +213,7 @@ int main( int argc, char* argv[] )
 
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		
+
 		// Draw our textured geometry (just a rectangle in this instance)
 		glPushMatrix();
 		glScalef( 0.8f, 0.8f, 0.8f );
@@ -262,4 +262,3 @@ int main( int argc, char* argv[] )
 
 	exit( EXIT_SUCCESS );
 }
-
