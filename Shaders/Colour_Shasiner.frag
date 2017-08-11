@@ -9,4 +9,4 @@ uniform sampler2D OurText;
 void main( )
 {
 	colour = texture( OurText, tex );
-}
+};

@@ -91,7 +91,7 @@ void Shaders::compile(const std::string &file_path, GLuint &tmp_id)
 	//Will Copies contents of shader file to the contents string so it can be binded to the shader object later.
 	std::ifstream file(file_path);
 	if (file.fail())
-		std::cerr << "Error Help Dezz Nutz" << std::endl;
+		std::cerr << "Error Help" << std::endl;
 
 	//Debug
 	std::cout << tmp_id << std::endl;

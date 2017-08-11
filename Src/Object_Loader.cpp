@@ -56,6 +56,8 @@ void Object_Loader::fill_data( std::vector < std::string > &data, const std::str
 void Object_Loader::seperate_face_data( std::vector < std::string > &data, const std::string &line)
 {
     std::string line_tmp = "";
+    std::string place_holder = "";
+    int val = 0;
 
     size_t tmp = line.find(" ");
 
@@ -63,35 +65,27 @@ void Object_Loader::seperate_face_data( std::vector < std::string > &data, const
         return ;
 
     line_tmp += line.substr( tmp + 1);
-    std::cout << line_tmp << std::endl;
+    //std::cout << line_tmp << std::endl;
 
-    while (line_tmp.length())
+    while(!line_tmp.empty())
     {
-        tmp = line_tmp.find(" ");
+        val = atoi(line_tmp.c_str());
 
-        if (tmp > line_tmp.length())
+        if (val != 0 && strncmp(line_tmp.c_str(), " ", 1) != 0)
         {
-            for (int i = 0; i < 3; i++)
-            {
-                data.push_back( line_tmp.substr( 0, line_tmp.find('/') + 1) );
-                line_tmp = line_tmp.substr( 0, line_tmp.find('/') + 1);
-            }
-            break ;
+            place_holder = std::to_string(val);
+            data.push_back(place_holder);
+            line_tmp.erase(0, place_holder.length() );
+            val = 0;
         }
-
-        for (int i = 0; i < 3; i++)
-        {
-            data.push_back( line_tmp.substr( 0, line_tmp.find('/') + 1) );
-            line_tmp = line_tmp.substr( 0, line_tmp.find('/') + 1);
-        }
-
-        line_tmp = line_tmp.substr( tmp + 1);
+        else
+            line_tmp.erase(line_tmp.begin());
     }
 
-    for (unsigned int i = 0; i < data.size(); i++)
-    {
-        std::cout << data[i] << std::endl;
-    }
+    //for (unsigned int tmp = 0; tmp < data.size(); tmp++)
+    //{
+    //    std::cout << data[tmp] << std::endl;
+    //}
 }
 
 void Object_Loader::Load_Object( const std::string &obj_path )
@@ -161,9 +155,55 @@ void Object_Loader::Load_Object( const std::string &obj_path )
 
     std::cout << vertices.size() << std::endl;
 
+    int vertex_point = 0;
     for (unsigned int val = 0; val < faces.size(); val++)
     {
         line = trim(faces[val]);
         seperate_face_data( gen, line);
+
+        for (int count = 0; count < gen.size();)
+        {
+            vertex_point = stoi(gen[count]) - 1;
+            //std::cout << "V " << stoi(gen[count]) << std::endl;
+            indices.push_back( vertex_point );
+
+            if (texture_coordinates.size() > 0)
+            {
+                glm::vec2 tex = texture_coordinates[ stoi(gen[++count]) - 1];
+                //std::cout << "T " << stoi(gen[count]) << std::endl;
+                Texture_Array[ vertex_point * 2] = tex.x;
+                Texture_Array[ vertex_point * 2 + 1] = 1 - tex.y;
+            }
+
+            if (normals.size() > 0)
+            {
+                glm::vec3 norms = normals[ stoi(gen[++count]) - 1 ];
+                //std::cout << "N " << stoi(gen[count]) << std::endl;
+                Normals_Array[ vertex_point * 3 ] = norms.x;
+                Normals_Array[ vertex_point * 3 + 1 ] = norms.y;
+                Normals_Array[ vertex_point * 3 + 2 ] = norms.z;
+            }
+
+            count++;
+        }
+
+        gen.clear();
+    }
+
+
+    Vertices_Array = new GLfloat[vertices.size() * 3];
+    Indicies_Array = new GLuint[indices.size()];
+
+    vertex_point = 0;
+    for (unsigned int tmp = 0; tmp < vertices.size(); tmp++)
+    {
+        Vertices_Array[vertex_point++] = vertices[tmp].x;
+        Vertices_Array[vertex_point++] = vertices[tmp].y;
+        Vertices_Array[vertex_point++] = vertices[tmp].z;
+    }
+
+    for (unsigned int tmp = 0; tmp < indices.size(); tmp++)
+    {
+        Indicies_Array[tmp] = indices[tmp];
     }
 }
